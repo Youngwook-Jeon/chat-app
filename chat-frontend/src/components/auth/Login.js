@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import loginImage from '../../assets/images/login.svg';
 import axios from 'axios';
 import AuthService from '../../services/authService';
+import { login } from '../../store/actions/auth';
+import { useDispatch } from 'react-redux';
 
 import './Auth.scss';
 
-const Login = () => {
+const Login = ({ history }) => {
+
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('john.doe@gmail.com');
     const [password, setPassword] = useState('secret');
@@ -14,17 +18,8 @@ const Login = () => {
     const submitForm = (e) => {
         e.preventDefault();
 
-        AuthService.login({ email, password }).then(res => console.log(res));
-
-        // axios.post('http://localhost:8000/login', {email, password})
-        //     .then(res => {
-        //         console.log('res', res);
-        //     })
-        //     .catch(err => {
-        //         console.log('err', err);
-        //     });
-        console.log({email, password})
-    }
+        dispatch(login({ email, password }, history));
+    };
 
     return (
         <div id='auth-container'>
